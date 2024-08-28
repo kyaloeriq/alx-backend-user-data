@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-This module contains a function `filter_datum` that obfuscates specific fields in a log message.
+This module contains a function `filter_datum` that obfuscates specific fields
 """
 import re
 from typing import List
 
 
-def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
+def filter_datum(fields: List[str], redaction: str, message: str,
+                separator: str) -> str:
     """
     Obfuscates specific fields in a log message.
 
@@ -19,5 +20,7 @@ def filter_datum(fields: List[str], redaction: str, message: str, separator: str
     Returns:
         str: The obfuscated log message.
     """
-    pattern = r'(?<={0})(.*?)(?={1})'.format(separator, separator)
-    return re.sub('|'.join([f'(?<={field}=)[^{separator}]+' for field in fields]), redaction, message)
+    pattern = '|'.join([
+        f'(?<={field}=)[^{separator}]+' for field in fields
+    ])
+    return re.sub(pattern, redaction, message)
