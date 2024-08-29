@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+"""
+This module contains a function `filter_datum` that obfuscates specific fields
+"""
+import re
 import logging
 from typing import List
 from filter_datum import filter_datum
