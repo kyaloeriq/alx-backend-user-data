@@ -1,26 +1,20 @@
-#!/usr/bin/env python3
-"""
-This module contains a function `filter_datum` that obfuscates specific fields
-"""
-import re
+import logging
 from typing import List
+from filter_datum import filter_datum
 
 
-def filter_datum(fields: List[str], redaction: str, message: str,
-                 separator: str) -> str:
+class RedactingFormatter(logging.Formatter):
+    """ Redacting Formatter class
     """
-    Obfuscates specific fields in a log message.
 
-    Args:
-        fields (List[str]): Fields to obfuscate.
-        redaction (str): String to replace the field values with.
-        message (str): The log message.
-        separator (str): Separator character used in the log message.
+    REDACTION = "***"
+    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    SEPARATOR = ";"
 
-    Returns:
-        str: The obfuscated log message.
-    """
-    pattern = '|'.join([
-        f'(?<={field}=)[^{separator}]+' for field in fields
-    ])
-    return re.sub(pattern, redaction, message)
+    def __init__(self, fields: List[str]):
+        super(RedactingFormatter, self).__init__(self.FORMAT)
+        self.fields = fields
+
+    def format(self, record: logging.LogRecord) -> str:
+        original_message = super().format(record)
+        return filter_datum(self.fields, self.REDACTION, original_message, self.SEPARATOR)
