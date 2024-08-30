@@ -3,6 +3,7 @@
 This module contains:
 - RedactingFormatter class to obfuscate PII data in log messages.
 - get_db function to securely connect to a MySQL database.
+- main function to retrieve and display user data from the database.
 """
 
 import os
@@ -74,7 +75,7 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> connection.MySQLConnection:
     """
-    Returns a connector to the database using credentials
+    Returns a connector to the database using credentials from environment variables.
     """
     # Retrieve database credentials from environment variables
     username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
@@ -93,27 +94,36 @@ def get_db() -> connection.MySQLConnection:
     return connection
 
 
-# Example usage of the logger and database connection
-if __name__ == "__main__":
+def main() -> None:
+    """
+    Retrieves all rows in the users table and displays each row in a filtered format.
+    """
     # Obtain the logger
     logger = get_logger()
-
-    # Log some messages (PII fields will be redacted)
-    logger.info(
-        "name=John Doe; email=johndoe@example.com; phone=123-456-7890; "
-        "ssn=123-45-6789; password=secret"
-    )
 
     # Get the database connection
     db = get_db()
 
-    # Perform database operations
-    cursor = db.cursor()
-    cursor.execute("SELECT * FROM users;")
-    rows = cursor.fetchall()
+    try:
+        # Perform database operations
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM users;")
+        rows = cursor.fetchall()
 
-    for row in rows:
-        logger.info(f"Fetched row: {row}")
+        for row in rows:
+            # Construct a formatted log message for each row
+            message = (
+                f"name={row[0]}; email={row[1]}; phone={row[2]}; ssn={row[3]}; "
+                f"password={row[4]}; ip={row[5]}; last_login={row[6]}; "
+                f"user_agent={row[7]};"
+            )
+            # Log the message (with PII fields redacted)
+            logger.info(message)
 
-    cursor.close()
-    db.close()
+    finally:
+        cursor.close()
+        db.close()
+
+
+if __name__ == "__main__":
+    main()
