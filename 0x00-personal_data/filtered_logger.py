@@ -10,6 +10,7 @@ from typing import List
 # Define the PII_FIELDS constant containing fields considered as PII
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
+
 def filter_datum(
         fields: List[str], redaction: str, message: str, separator: str
         ) -> str:
@@ -51,22 +52,17 @@ class RedactingFormatter(logging.Formatter):
 
 def get_logger() -> logging.Logger:
     """
-    Creates and configures a logger named 'user_data' that logs up to INFO level
+    Creates and configures a logger named 'user_data' that logs up to INFO
     """
     # Create a logger with the name 'user_data'
     logger = logging.getLogger("user_data")
-    
     # Set log level to INFO
     logger.setLevel(logging.INFO)
-    
     # Ensure the logger does not propagate messages to other loggers
     logger.propagate = False
-    
     # Create a StreamHandler and set the RedactingFormatter as the formatter
     stream_handler = logging.StreamHandler()
     stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
-    
     # Add the handler to the logger
     logger.addHandler(stream_handler)
-    
     return logger
