@@ -35,13 +35,9 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-    """
-    Format the log record and filter sensitive fields.
-    """
-    # Format the log record using the superclass's format method
-    formatted_message = super().format(record)
-    
-    # Apply filtering to the formatted message
-    return filter_datum(
-        self.fields, self.REDACTION, formatted_message, self.SEPARATOR
-    )
+        """
+        Format the log record and filter sensitive fields.
+        """
+        return filter_datum(
+            self.fields, self.REDACTION, formatted_message, self.SEPARATOR
+        )
