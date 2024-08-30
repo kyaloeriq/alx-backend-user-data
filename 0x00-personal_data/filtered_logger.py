@@ -113,8 +113,9 @@ def main() -> None:
         for row in rows:
             # Construct a formatted log message for each row
             message = (
-                f"name={row[0]}; email={row[1]}; phone={row[2]}; ssn={row[3]}; "
-                f"password={row[4]}; ip={row[5]}; last_login={row[6]}; "
+                f"name={row[0]}; email={row[1]}; phone={row[2]}; "
+                f"ssn={row[3]}; password={row[4]}; "
+                f"ip={row[5]}; last_login={row[6]}; "
                 f"user_agent={row[7]};"
             )
             # Log the message (with PII fields redacted)
