@@ -74,7 +74,7 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> connection.MySQLConnection:
     """
-    Returns a connector to the database using credentials from environment variables.
+    Returns a connector to the database using credentials
     """
     # Retrieve database credentials from environment variables
     username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
@@ -99,7 +99,10 @@ if __name__ == "__main__":
     logger = get_logger()
 
     # Log some messages (PII fields will be redacted)
-    logger.info("name=John Doe; email=johndoe@example.com; phone=123-456-7890; ssn=123-45-6789; password=secret")
+    logger.info(
+        "name=John Doe; email=johndoe@example.com; phone=123-456-7890; "
+        "ssn=123-45-6789; password=secret"
+    )
 
     # Get the database connection
     db = get_db()
