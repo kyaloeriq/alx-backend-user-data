@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """
-This module contains a RedactingFormatter class that obfuscates PII data
+This module contains:
+- RedactingFormatter class to obfuscate PII data in log messages.
+- get_db function to securely connect to a MySQL database.
 """
 
+import os
 import re
 import logging
+import mysql.connector
 from typing import List
+from mysql.connector import connection
 
 # Define the PII_FIELDS constant containing fields considered as PII
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
@@ -19,7 +24,7 @@ def filter_datum(
     """
     pattern = '|'.join([
         f'(?<={field}={separator})[^{separator}]+' for field in fields
-        ])
+    ])
     return re.sub(pattern, redaction, message)
 
 
@@ -51,7 +56,7 @@ class RedactingFormatter(logging.Formatter):
 
 def get_logger() -> logging.Logger:
     """
-    Creates and configures a logger named 'user_data' that logs up to INFO
+    Creates and configures a logger named 'user_data' that logs up to INFO.
     """
     # Create a logger with the name 'user_data'
     logger = logging.getLogger("user_data")
@@ -65,3 +70,47 @@ def get_logger() -> logging.Logger:
     # Add the handler to the logger
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db() -> connection.MySQLConnection:
+    """
+    Returns a connector to the database using credentials from environment variables.
+    """
+    # Retrieve database credentials from environment variables
+    username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+    database = os.getenv('PERSONAL_DATA_DB_NAME')
+
+    # Connect to the database using the retrieved credentials
+    connection = mysql.connector.connect(
+        user=username,
+        password=password,
+        host=host,
+        database=database
+    )
+
+    return connection
+
+
+# Example usage of the logger and database connection
+if __name__ == "__main__":
+    # Obtain the logger
+    logger = get_logger()
+
+    # Log some messages (PII fields will be redacted)
+    logger.info("name=John Doe; email=johndoe@example.com; phone=123-456-7890; ssn=123-45-6789; password=secret")
+
+    # Get the database connection
+    db = get_db()
+
+    # Perform database operations
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        logger.info(f"Fetched row: {row}")
+
+    cursor.close()
+    db.close()
