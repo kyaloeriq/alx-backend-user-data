@@ -75,7 +75,7 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> connection.MySQLConnection:
     """
-    Returns a connector to the database using credentials from environment variables.
+    Returns a connector to the database using credentials
     """
     # Retrieve database credentials from environment variables
     username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
@@ -96,7 +96,7 @@ def get_db() -> connection.MySQLConnection:
 
 def main() -> None:
     """
-    Retrieves all rows in the users table and displays each row in a filtered format.
+    Retrieves all rows in the users table and displays each row
     """
     # Obtain the logger
     logger = get_logger()
