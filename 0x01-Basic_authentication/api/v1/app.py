@@ -1,11 +1,18 @@
-#!/usr/bin/env python3
-# api/v1/views/index.py
+# api/v1/app.py
 
-from flask import Blueprint, abort
+from flask import Flask
+from api.v1.views.index import index_bp
 
-index_bp = Blueprint('index', __name__)
+app = Flask(__name__)
 
-@index_bp.route('/api/v1/unauthorized', methods=['GET'])
-def unauthorized():
-    """Endpoint that raises a 401 Unauthorized error."""
-    abort(401)
+# Register blueprints
+app.register_blueprint(index_bp)
+
+@app.errorhandler(401)
+def unauthorized_error(error):
+    """Handle 401 Unauthorized errors."""
+    response = jsonify({"error": "Unauthorized"})
+    response.status_code = 401
+    return response
+
+# Other app configurations and routes
