@@ -1,6 +1,7 @@
+#!/usr/bin/env python3
 # api/v1/app.py
 
-from flask import Flask
+from flask import Flask, jsonify
 from api.v1.views.index import index_bp
 
 app = Flask(__name__)
