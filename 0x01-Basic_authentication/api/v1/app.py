@@ -9,16 +9,16 @@ app = Flask(__name__)
 # Register blueprints
 app.register_blueprint(index_bp)
 
-@app.errorhandler(401)
 
+@app.errorhandler(401)
 def unauthorized_error(error):
     """Handle 401 Unauthorized errors."""
     response = jsonify({"error": "Unauthorized"})
     response.status_code = 401
     return response
 
-# Other app configurations and routes
 
+# Other app configurations and routes
 if __name__ == '__main__':
     import os
     host = os.getenv('API_HOST', '0.0.0.0')
