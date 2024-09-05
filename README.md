@@ -1,1 +1,1 @@
-Personal data
+Session authentication
