@@ -1,12 +1,9 @@
-#!/usr/bin/env python3
 # api/v1/views/index.py
-
-from flask import Blueprint, abort
+from flask import Blueprint, jsonify
 
 index_bp = Blueprint('index', __name__)
 
-
-@index_bp.route('/api/v1/unauthorized', methods=['GET'])
-def unauthorized():
-    """Endpoint that raises a 401 Unauthorized error."""
-    abort(401)
+@index_bp.route('/', methods=['GET'])
+def index():
+    """Base route."""
+    return jsonify({"message": "OK"}), 200
