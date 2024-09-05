@@ -1,24 +1,23 @@
-#!/usr/bin/env python3
 # api/v1/app.py
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from api.v1.views.index import index_bp
+from api.v1.auth.basic_auth import BasicAuth  # Make sure you import BasicAuth
 
 app = Flask(__name__)
+
+auth = BasicAuth()
+
+@app.before_request
+def before_request():
+    """Filter before each request"""
+    request.current_user = auth.current_user(request)
 
 # Register blueprints
 app.register_blueprint(index_bp)
 
+# Error handling and other routes remain the same...
 
-@app.errorhandler(401)
-def unauthorized_error(error):
-    """Handle 401 Unauthorized errors."""
-    response = jsonify({"error": "Unauthorized"})
-    response.status_code = 401
-    return response
-
-
-# Other app configurations and routes
 if __name__ == '__main__':
     import os
     host = os.getenv('API_HOST', '0.0.0.0')
