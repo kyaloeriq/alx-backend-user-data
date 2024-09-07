@@ -10,7 +10,9 @@ from models.user import User
 from api.v1.views import app_views
 
 
-@app_views.route('/api/v1/users/<user_id>', methods=['GET'], strict_slashes=False)
+@app_views.route(
+        '/api/v1/users/<user_id>', methods=['GET'], strict_slashes=False
+        )
 def get_user(user_id):
     """
     Retrieve a User object by ID or 'me' for the authenticated user.
