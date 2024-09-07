@@ -7,6 +7,7 @@ from api.v1.auth.basic_auth import BasicAuth
 import os
 
 app = Flask(__name__)
+app.register_blueprint(app_views)
 
 # Check the value of AUTH_TYPE environment variable
 auth_type = os.getenv('AUTH_TYPE')
@@ -35,6 +36,7 @@ def unauthorized_error(error):
 
 # Other app configurations and routes
 if __name__ == '__main__':
+    import os
     host = os.getenv('API_HOST', '0.0.0.0')
     port = int(os.getenv('API_PORT', 5000))
     app.run(host=host, port=port)
