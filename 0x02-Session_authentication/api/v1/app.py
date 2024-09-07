@@ -22,6 +22,7 @@ if auth_type == 'basic_auth':
 elif auth_type == 'session_auth':
     auth = SessionAuth()
 
+
 @app.before_request
 def before_request():
     """
@@ -29,6 +30,7 @@ def before_request():
     """
     if auth:
         request.current_user = auth.current_user(request)
+
 
 @app.route('/api/v1/status', methods=['GET'], strict_slashes=False)
 def status():
@@ -39,8 +41,8 @@ def status():
 
 # Other configurations and routes...
 
+
 if __name__ == '__main__':
     host = getenv('API_HOST', '0.0.0.0')
     port = int(getenv('API_PORT', 5000))
     app.run(host=host, port=port)
-
