@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-# api/v1/views/index.py
+"""
+HTTP status code for a request unauthorized
+"""
 from flask import Blueprint, jsonify, abort
 
 # Create a Blueprint instance for the index routes
