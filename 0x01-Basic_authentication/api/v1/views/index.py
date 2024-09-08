@@ -22,3 +22,11 @@ def unauthorized():
     Endpoint to trigger 401 Unauthorized error.
     """
     abort(401)
+
+
+@index_bp.route('/api/v1/status', methods=['GET'])
+def status():
+    """
+    This route returns a JSON response with a simple "OK" message
+    """
+    return jsonify({"status": "OK"}), 200
