@@ -3,7 +3,7 @@
 This module sets up and runs a Flask web application for the API.
 """
 
-from flask import Flask, jsonify, abort
+from flask import Flask, jsonify
 from api.v1.views.index import index_bp
 
 app = Flask(__name__)
