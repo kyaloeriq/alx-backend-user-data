@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # api/v1/views/index.py
 from flask import Blueprint, jsonify, abort
 
