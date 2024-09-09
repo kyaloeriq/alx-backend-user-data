@@ -11,6 +11,7 @@ app = Flask(__name__)
 # Register blueprints
 app.register_blueprint(index_bp)
 
+
 # Error handler for 401 Unauthorized
 @app.errorhandler(401)
 def unauthorized_error(error):
