@@ -19,6 +19,7 @@ def unauthorized_error(error):
     """
     response = jsonify({"error": "Unauthorized"})
     response.status_code = 401
+    response.headers['Content-Type'] = 'application/json'
     return response
 
 
