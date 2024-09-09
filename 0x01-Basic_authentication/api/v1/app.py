@@ -37,7 +37,7 @@ def before_request_handler():
     # If the request path does not require authentication, do nothing
     if not auth.require_auth(request.path, excluded_paths):
         return
-    # If the request does not contain the Authorization header, raise 401 Unauthorized
+    # request does not contain Authorization header, raise 401 Unauthorized
     if auth.authorization_header(request) is None:
         abort(401)
     # If the current user is not found, raise 403 Forbidden
