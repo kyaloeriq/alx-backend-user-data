@@ -24,6 +24,14 @@ def unauthorized():
     abort(401)
 
 
+@index_bp.route('/api/v1/unauthorized/', methods=['GET'])
+def unauthorized_with_trailing_slash():
+    """
+    Endpoint to trigger 401 Unauthorized error.
+    """
+    abort(401)
+
+
 @index_bp.route('/api/v1/forbidden', methods=['GET'])
 def forbidden():
     """
