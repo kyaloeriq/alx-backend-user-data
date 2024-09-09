@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-# api/v1/app.py
+"""
+This module sets up the Flask application for the API, including configuration
+"""
 
 from flask import Flask, jsonify, abort, request
 from flask_cors import CORS
