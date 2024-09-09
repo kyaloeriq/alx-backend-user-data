@@ -24,6 +24,12 @@ def unauthorized():
     abort(401)
 
 
+@index_bp.route('/api/v1/forbidden', methods=['GET'])
+def forbidden():
+    """Trigger 403 Forbidden error."""
+    abort(403)
+
+
 @index_bp.route('/api/v1/status', methods=['GET'])
 def status():
     """
