@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """
-Module for BasicAuth class that implements basic authentication mechanisms.
+Module for BasicAuth class that implements basic authentication.
 """
 
+from typing import TypeVar
+from models.user import User
 from api.v1.auth.auth import Auth
 import base64
 
 
 class BasicAuth(Auth):
     """
-    BasicAuth class that inherits from Auth.
+    BasicAuth class to handle Basic Authentication mechanisms
     """
     def extract_base64_authorization_header(
             self, authorization_header: str
