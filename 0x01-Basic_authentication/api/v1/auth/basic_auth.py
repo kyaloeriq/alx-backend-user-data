@@ -47,7 +47,7 @@ class BasicAuth(Auth):
             # Decode the Base64 string
             decoded_bytes = base64.b64decode(base64_authorization_header)
             return decoded_bytes.decode('utf-8')
-        except Exception:
+        except (base64.binascii.Error, UnicodeDecodeError):
             # Return None if decoding fails (invalid Base64)
             return None
 
@@ -77,10 +77,7 @@ class BasicAuth(Auth):
         """
         Retrieves the User instance based on the provided email and password
         """
-        if user_email is None or not isinstance(user_email, str):
-            return None
-
-        if user_pwd is None or not isinstance(user_pwd, str):
+        if not isinstance(user_email, str) or not isinstance(user_pwd, str):
             return None
 
         # Search for the user in the database by email
