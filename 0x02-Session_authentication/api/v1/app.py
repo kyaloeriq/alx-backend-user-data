@@ -3,6 +3,7 @@
 App module for the API
 """
 
+from api.v1.views import app_views
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
 from flask import Flask, request, jsonify, abort
@@ -17,6 +18,7 @@ if getenv("AUTH_TYPE") == "basic_auth":
     auth = BasicAuth()
 else:
     auth = Auth()
+
 
 @app.before_request
 def before_request():
@@ -36,17 +38,16 @@ def before_request():
         if request.current_user is None:
             abort(403)
 
+
 @app.teardown_appcontext
 def close_db(error):
     """ Closes the database session """
     storage.close()
 
-# Import views (register the routes)
-from api.v1.views import app_views
+
 app.register_blueprint(app_views)
 
 if __name__ == "__main__":
     host = getenv("HBNB_API_HOST", "0.0.0.0")
     port = getenv("HBNB_API_PORT", "5000")
     app.run(host=host, port=port, threaded=True)
-
