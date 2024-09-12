@@ -35,6 +35,7 @@ class DB:
         self._session.add(new_user)  # Add the user to the current session
         self._session.commit()
         return new_user  # Return the newly created User object
+    
     def find_user_by(self, **kwargs) -> User:
         """
         Find a user by arbitrary keyword arguments in the database.
