@@ -28,7 +28,7 @@ class Auth:
 
             # Check if the excluded path ends with '*', indicating a wildcard
             if excluded_path.endswith('*'):
-                # Match if the beginning of the path matches the part before '*'
+                # Match if the beginning of the path matches
                 if path.startswith(excluded_path[:-1]):
                     return False
             elif path == excluded_path:
