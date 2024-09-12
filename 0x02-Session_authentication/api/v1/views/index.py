@@ -3,6 +3,7 @@
 HTTP status code for a request unauthorized
 """
 from flask import Blueprint, jsonify, abort
+from api.v1.views import app_views
 
 # Create a Blueprint instance for the index routes
 index_bp = Blueprint('index', __name__)
@@ -54,3 +55,11 @@ def status():
     This route returns a JSON response with a simple "OK" message
     """
     return jsonify({"status": "OK"}), 200
+
+
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
+def status():
+    """
+    Returns the status of the API
+    """
+    return jsonify({"status": "OK"})
