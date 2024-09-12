@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# api/v1/auth/auth.py
 """
 This module contains the Auth class, a template for all authentication systems.
 """
@@ -11,23 +10,31 @@ from typing import List, TypeVar
 class Auth:
     """Class to manage API authentication"""
 
-    def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
+    def require_auth(self, path: str, excluded_paths: list) -> bool:
         """
-        Determine if a path requires authentication.
+        Determines if authentication is required based on the path
         """
-        if path is None:
+        if path is None or not isinstance(excluded_paths, list):
             return True
 
-        if excluded_paths is None or len(excluded_paths) == 0:
-            return True
+        # Normalize path by ensuring it does not have trailing slashes
+        if path.endswith('/'):
+            path = path[:-1]
 
-        # Normalize path to ensure it ends with a slash
-        if not path.endswith('/'):
-            path += '/'
+        for excluded_path in excluded_paths:
+            # Normalize excluded path by removing trailing slashes
+            if excluded_path.endswith('/'):
+                excluded_path = excluded_path[:-1]
 
-        # Check if the normalized path is in the excluded paths
-        if path in excluded_paths:
-            return False
+            # Check if the excluded path ends with '*', indicating a wildcard
+            if excluded_path.endswith('*'):
+                # Match if the beginning of the path matches the part before '*'
+                if path.startswith(excluded_path[:-1]):
+                    return False
+            elif path == excluded_path:
+                return False
+
+        # If no matches were found, authentication is required
         return True
 
     def authorization_header(self, request=None) -> str:
