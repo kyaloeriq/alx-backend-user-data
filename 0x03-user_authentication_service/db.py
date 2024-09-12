@@ -15,7 +15,7 @@ class DB:
     """DB class to handle database interactions for user management."""
 
     def __init__(self) -> None:
-        """Initialize a new DB instance by setting up the SQLite engine and database."""
+        """Initialize a new DB instance by setting up the SQLite"""
         self._engine = create_engine("sqlite:///a.db", echo=True)
         Base.metadata.drop_all(self._engine)  # Reset the database
         Base.metadata.create_all(self._engine)  # Create tables
@@ -35,5 +35,5 @@ class DB:
         """
         new_user = User(email=email, hashed_password=hashed_password)
         self._session.add(new_user)  # Add the user to the current session
-        self._session.commit()  # Commit the session to save the user to the database
+        self._session.commit()
         return new_user  # Return the newly created User object
