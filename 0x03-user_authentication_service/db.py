@@ -35,3 +35,22 @@ class DB:
         self._session.add(new_user)  # Add the user to the current session
         self._session.commit()
         return new_user  # Return the newly created User object
+    def find_user_by(self, **kwargs) -> User:
+        """
+        Find a user by arbitrary keyword arguments in the database.
+        """
+        try:
+            # Query the users table with the provided keyword arguments
+            user = self._session.query(User).filter_by(**kwargs).first()
+            if user is None:
+                raise NoResultFound  # Raise if no user was found
+            return user
+        except NoResultFound:
+            # Reraise NoResultFound if no matching user is found
+            raise
+        except InvalidRequestError:
+            # Reraise InvalidRequestError if an invalid query is formed
+            raise
+        except Exception as e:
+            # Catch any other exception and raise an InvalidRequestError
+            raise InvalidRequestError from e
