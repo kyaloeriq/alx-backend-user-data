@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-View for User objects that handles all default RESTful API actions.
+This module defines the views for User objects
 """
 
 from models.user import User
@@ -11,7 +11,7 @@ from models import storage
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def get_user(user_id):
     """
-    Retrieves a User by ID. If the user_id is 'me', returns the current authenticated user.
+    Retrieves a User object by ID or returns the current authenticated User
     """
     if user_id == "me":
         if request.current_user is None:
