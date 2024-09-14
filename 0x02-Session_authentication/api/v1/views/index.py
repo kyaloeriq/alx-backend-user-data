@@ -62,4 +62,4 @@ def status():
     """
     Returns the status of the API
     """
-    return "OK"
+    return "OK", 200
