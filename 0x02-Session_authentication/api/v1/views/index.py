@@ -4,6 +4,7 @@ HTTP status code for a request unauthorized
 """
 from flask import Blueprint, jsonify, abort
 from api.v1.views import app_views
+app_views = Blueprint('app_views', __name__)
 
 # Create a Blueprint instance for the index routes
 index_bp = Blueprint('index', __name__)
