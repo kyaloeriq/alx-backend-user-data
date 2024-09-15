@@ -19,10 +19,11 @@ auth_type = getenv("AUTH_TYPE")
 
 if auth_type == "basic_auth":
     auth = BasicAuth()
-elif auth_type == "session_auth":  # Switch to SessionAuth if AUTH_TYPE is session_auth
+elif auth_type == "session_auth":  # Switch to SessionAuth
     auth = SessionAuth()
 else:
     auth = Auth()
+
 
 @app.before_request
 def before_request():
@@ -31,7 +32,9 @@ def before_request():
     Assigns the current authenticated user to request.current_user.
     """
     if auth is not None:
-        excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+        excluded_paths = [
+                '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/'
+                ]
         if not auth.require_auth(request.path, excluded_paths):
             return
         if auth.authorization_header(request) is None:
