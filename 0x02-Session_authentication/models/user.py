@@ -3,6 +3,7 @@
 
 from models.base import BaseModel
 
+
 class User(BaseModel):
     """
     A class representing a user.
