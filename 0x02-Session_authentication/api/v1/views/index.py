@@ -58,6 +58,7 @@ def status():
     return jsonify({"status": "OK"}), 200
 
 
-@app.route('/api/v1/status', methods=['GET'])
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
+    """Returns the status of the API"""
     return jsonify({"status": "OK"})
