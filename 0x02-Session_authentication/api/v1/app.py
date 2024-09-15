@@ -27,17 +27,9 @@ else:
 
 @app.before_request
 def before_request():
-    """
-    Function executed before each request to ensure authentication.
-    Assigns the current authenticated user to request.current_user.
-    """
-    if auth is not None:
-        excluded_paths = [
-            '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/'
-        ]
-        if not auth.require_auth(request.path, excluded_paths):
-            return
-        if auth.authorization_header(request) is None:
+    """Handles authentication checks before processing a request"""
+    if auth and auth.require_auth(request.path, excluded_paths):
+        if auth.authorization_header(request) is None and auth.session_cookie(request) is None:
             abort(401)
         request.current_user = auth.current_user(request)
         if request.current_user is None:
