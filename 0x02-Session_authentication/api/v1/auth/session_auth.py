@@ -1,7 +1,12 @@
-# api/v1/auth/session_auth.py
+#!/usr/bin/env python3
+"""
+Module for Session Authentication.
+"""
 
 from api.v1.auth.auth import Auth
 
 class SessionAuth(Auth):
-    """SessionAuth class for session-based authentication"""
+    """
+    Session Authentication class that inherits from Auth.
+    """
     pass
