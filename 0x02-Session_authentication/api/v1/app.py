@@ -6,6 +6,7 @@ App module for the API
 from api.v1.views import app_views
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
+from api.v1.auth.session_auth import SessionAuth  # Import SessionAuth
 from flask import Flask, request, jsonify, abort
 from models import storage
 from os import getenv
@@ -14,11 +15,14 @@ app = Flask(__name__)
 
 # Retrieve the auth mechanism to use
 auth = None
-if getenv("AUTH_TYPE") == "basic_auth":
+auth_type = getenv("AUTH_TYPE")
+
+if auth_type == "basic_auth":
     auth = BasicAuth()
+elif auth_type == "session_auth":  # Switch to SessionAuth if AUTH_TYPE is session_auth
+    auth = SessionAuth()
 else:
     auth = Auth()
-
 
 @app.before_request
 def before_request():
@@ -27,9 +31,7 @@ def before_request():
     Assigns the current authenticated user to request.current_user.
     """
     if auth is not None:
-        # Exclude certain paths from authentication
-        excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
-                          '/api/v1/forbidden/']
+        excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
         if not auth.require_auth(request.path, excluded_paths):
             return
         if auth.authorization_header(request) is None:
