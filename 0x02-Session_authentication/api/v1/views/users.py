@@ -18,7 +18,7 @@ def get_user(user_id):
             abort(404)
         return jsonify(request.current_user.to_dict())
 
-    user = storage.get(User, user_id)
+    user = User.get(user_id)
     if user is None:
         abort(404)
     return jsonify(user.to_dict())
