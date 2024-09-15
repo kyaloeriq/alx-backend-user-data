@@ -29,8 +29,12 @@ else:
 def before_request():
     """Handles authentication checks before processing a request"""
     if auth and auth.require_auth(request.path, excluded_paths):
-        if auth.authorization_header(request) is None and auth.session_cookie(request) is None:
-            abort(401)
+        excluded_paths = [
+            '/api/v1/status/',
+            '/api/v1/unauthorized/',
+            '/api/v1/forbidden/'
+        ]
+        abort(401)
         request.current_user = auth.current_user(request)
         if request.current_user is None:
             abort(403)
