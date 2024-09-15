@@ -18,3 +18,12 @@ class User(BaseModel):
     def __repr__(self):
         """Return a string representation of the user."""
         return f"<User {self.to_dict()}>"
+
+    def to_dict(self):
+        """ Convert the user object to a dictionary """
+        return {
+            'id': self.id,
+            'email': self.email,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+        }
