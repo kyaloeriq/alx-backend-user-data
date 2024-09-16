@@ -6,6 +6,7 @@ SessionAuth module for managing session IDs.
 import uuid
 from .auth import Auth
 
+
 class SessionAuth(Auth):
     """
     SessionAuth class for managing session-based authentication.
