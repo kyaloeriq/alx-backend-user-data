@@ -6,7 +6,6 @@ SessionAuth module for managing session IDs.
 import uuid
 from .auth import Auth
 
-
 class SessionAuth(Auth):
     """
     SessionAuth class for managing session-based authentication.
@@ -17,6 +16,10 @@ class SessionAuth(Auth):
     def create_session(self, user_id: str = None) -> str:
         """
         Create a session ID for a given user_id.
+        Args:
+            user_id (str): The user's ID to associate with a session.
+        Returns:
+            str: The generated session ID, or None if user_id is invalid.
         """
         if user_id is None or not isinstance(user_id, str):
             return None
@@ -29,3 +32,17 @@ class SessionAuth(Auth):
 
         # Return the generated session ID
         return session_id
+
+    def user_id_for_session_id(self, session_id: str = None) -> str:
+        """
+        Retrieve a user ID based on a session ID.
+        Args:
+            session_id (str): The session ID to lookup.
+        Returns:
+            str: The user ID associated with the session ID, or None if not found or invalid.
+        """
+        if session_id is None or not isinstance(session_id, str):
+            return None
+
+        # Retrieve the user ID associated with the session ID using the .get() method
+        return self.user_id_by_session_id.get(session_id)
